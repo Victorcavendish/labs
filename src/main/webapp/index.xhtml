@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Página Inicial</title>
+</h:head>
+<h:body>	
+	<h:form>
+	<p:panelGrid columns="2">
+		<h3>Acessar a lista de produtos</h3>
+		<h:commandLink value="Lista de Produtos" action="lista_produto"/>
+
+	
+		<h3>Acessar a lista de serviços</h3>
+		<h:commandLink value="Lista de Serviços" action="lista_servico"/>
+		
+
+
+		<h3>Acessar a lista de formas de pagamentos</h3>
+		<h:commandLink value="Formas de Pagamentos" action="forma_pagamento"/>
+		
+		
+
+		<h3>Acessar a lista de pessoas</h3>
+		<h:commandLink value="Pessoas" action="lista_pessoa"/>
+
+		
+		
+	</p:panelGrid>
+	</h:form>
+</h:body>
+</html>

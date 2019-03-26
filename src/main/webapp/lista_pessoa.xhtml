@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Lista de Pessoas</title>
+</h:head>
+<h:body>
+	<h:form id="form">
+	
+	<p:growl id="msgs" showDetail="true" />
+	
+	
+	<p:dataTable id="tbl" var="p" value="#{pessoaCtrl.listagem}" 
+				 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+				 {PageLinks} {NextPageLink} {LastPageLink}" paginator="true" rows="10"
+				 style="margin-bottom:20px">
+				 
+		<f:facet name="header">
+			<h:outputLabel value="Lista de Pessoas"/>
+			<p:commandButton value="Inserir" icon="icon-novo" 
+			actionListener="#{pessoaCtrl.actionInserir}" oncomplete="PF('cadDialog').show()"
+			update=":form:cadDetail"></p:commandButton>
+			<h:outputLabel value="Descrição: "/>
+			<h:inputText value="#{pessoaCtrl.filtro}"/>
+			<p:commandButton value="Pesquisar" ajax="false" action="#" />
+		</f:facet>
+		
+		<p:column headerText="Código" sortBy="p.id">
+			<h:outputText value="#{p.id}"/>
+		</p:column>
+		
+		<p:column headerText="Nome" sortBy="p.nome">
+			<h:outputText value="#{p.nome}"/>
+		</p:column>
+		
+		<p:column headerText="CPF" sortBy="p.cpf">
+			<h:outputText value="#{p.cpf}"/>
+		</p:column>
+		
+		<p:column style="width:32px;text-align: center">
+			<p:commandButton update=":form:cadDetail" oncomplete="PF('cadDialog').show()" icon="ui-icon-search"
+			titke="View">
+			<f:setPropertyActionListener value="#{p}" target="#{pessoaCtrl.pessoa}"></f:setPropertyActionListener>
+			</p:commandButton>
+		</p:column>
+	</p:dataTable>	
+		
+		
+		<p:column style="width:32px;text-align: center">
+			<p:commandButton update=":form:cadDetail" oncomplete="PF('cadDialog').show()"
+				icon="ui-icon-search" title="View">
+				<f:setPropertyActionListener value="#{f}" target="#{formaPgtoCtrl.formaPgto}" />
+				
+			</p:commandButton>
+		</p:column>
+	
+	
+	<p:dialog header="Cadastro de Pessoas" widgetVar="cadDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="true">
+		  <p:outputPanel id="cadDetail" style="text-align:left;">
+		  		<h:panelGrid columns="2">
+		  				<h:outputLabel value="Código"/>
+		  				<p:inputText value="#{pessoaCtrl.pessoa.id}" size="10" maxlength="10" readonly="true"/>
+		  				
+		  				<h:outputLabel value="Nome"/>
+		  				<p:inputText value="#{pessoaCtrl.pessoa.nome}" size="60" maxlength="60"/>
+		  				
+		  				<h:outputLabel value="CPF"/>
+		  				<p:inputMask value="#{pessoaCtrl.pessoa.cpf}" mask="999.999.999-99"/>
+		  				
+		  				<h:outputLabel value="RG"/>
+		  				<p:inputText value="#{pessoaCtrl.pessoa.rg}" size="20" maxlength="20"/>
+		  				
+		  				<h:outputLabel value="Data de Nascimento"/>
+		  				<p:inputText value="#{pessoaCtrl.pessoa.data_nasc}" size="10" maxlength="10">
+		  				<f:convertDateTime dateStryle="default"/>
+		  				</p:inputText>
+		  				
+		  				<h:outputLabel value="Rua"/>
+		  				<p:inputText value="#{pessoaCtrl.pessoa.rua}" size="60" maxlength="60"/>
+		  				
+		  				<h:outputLabel value="Bairro"/>
+		  				<p:inputText value="#{pessoaCtrl.pessoa.bairro}" size="30" maxlength="30"/>
+		  				
+		  				<h:outputLabel value="Cidade"/>
+		  				<p:inputText value="#{pessoaCtrl.pessoa.cidade}" size="30" maxlength="30"/>
+		  				
+		  				<h:outputLabel value="UF"/>
+		  				<p:inputText value="#{pessoaCtrl.pessoa.uf}" size="2" maxlength="2"/>
+		  				
+		  				<h:outputLabel value="CEP"/>
+		  				<p:inputText value="#{pessoaCtrl.pessoa.cep}" size="10" maxlength="10"/>
+		  				
+		  				<h:outputLabel value="Email"/>
+		  				<p:inputText value="#{pessoaCtrl.pessoa.email}" size="40" maxlength="40"/>
+		  				
+		  				<h:outputLabel value="Senha"/>
+		  				<p:password value="#{pessoaCtrl.pessoa.senha}" size="32" maxlength="32" feedback="true"/>
+		  		</h:panelGrid>
+		  			
+		  		<h:panelGrid columns="1">
+		  			<h:dataTable id="ListaFones" value="#{pessoaCtrl.pessoa.fones}" var="f" rules="rows">
+		  				<f:facet name="header">
+		  					<p:commandButton value="Adicionar Fone" update=":form:cadDetail" actionListener="#{pessoaCtrl.actionInserirFone}" />
+		  				</f:facet>
+		  				<h:column>
+		  					<f:facet name="header">
+		  						<h:outputLabel value="Número" />
+		  					</f:facet>
+		  						<p:inputMask value="#{f.numero}" mask="(99)9999-9999" />
+		  				</h:column>
+		  				<h:column>
+		  					<f:facet name="header">
+		  						<h:outputLabel value="Descrição" />
+		  					</f:facet>
+		  					<p:inputText value="#{f.descricao}" size="30" maxlength="30" />
+		  				</h:column>
+		  				<h:column>
+		  					<p:commandButton value="Remover" update=":form:cadDetail" actionListener="#{pessoaCtrl.actionGravar}">
+		  						<f:setPropertyActionListener value="#(f)" target="#{pessoaCtrl.fone}" />
+		  					</p:commandButton>
+		  				</h:column>
+		  			</h:dataTable>
+		  		</h:panelGrid>	
+		  		<h:panelGrid columns="3">
+		  		<p:commandButton value="Excluir" action="#{pessoaCtrl.actionExcluir}" update="form"/>
+		  		<p:commandButton value="Gravar" actionListener="#{pessoaCtrl.actionGravar}" update="form" oncomplete="PF('cadDialog').hide()"/>
+		  		<p:commandButton value="Cancelar" oncomplete="PF('cadDialog').hide()"/>
+		  		</h:panelGrid>	
+		  </p:outputPanel>	
+		   		
+	</p:dialog>
+	</h:form>
+</h:body>
+</html>
